@@ -1,0 +1,70 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.insurancefraud
+
+
+asset Claim identified by claimId{
+  o String claimId
+  o String date
+  o String totalamount
+  o String description
+  o String issue default='N/A'
+  o Boolean verified
+  --> Patient verifier // Patient that verifies the request
+  --> Hospital claimer // Hospital submitting the claim request
+}
+
+participant Hospital identified by claimerId {
+  o String claimerId
+  o String name
+}
+
+participant Patient identified by verifierId {
+  o String verifierId
+  o String birthDate
+  o String firstname
+  o String lastname
+  o String phonenumber
+  o String gender
+}
+
+participant Insurer identified by registrationNumber{
+  o String registrationNumber
+  o String name
+}
+
+
+transaction CreateClaim {
+  o String claimId
+  o String date
+  o String totalamount
+  o String description
+  --> Hospital claimer
+  --> Patient verifier
+}
+
+
+transaction VerifyClaim {
+  --> Claim claim
+}
+
+transaction RejectClaim {
+  --> Claim claim
+  o String issue
+}

@@ -1,0 +1,23 @@
+/** Queries for Insurance Fraud network
+*/
+
+query verifiedClaims {
+  description: "Select all claims that have been verified"
+  statement:
+      SELECT org.insurancefraud.Claim
+        WHERE (verified == true)
+}
+
+query unverifiedClaims {
+  description: "Select all claims that have been verified"
+  statement:
+      SELECT org.insurancefraud.Claim
+        WHERE (verified == false AND issue == 'N/A')
+}
+
+query unverifiedIssueClaims {
+  description: "Select all claims that have been verified"
+  statement:
+      SELECT org.insurancefraud.Claim
+        WHERE (issue != 'N/A')
+}
